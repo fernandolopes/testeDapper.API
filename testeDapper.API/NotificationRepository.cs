@@ -1,4 +1,5 @@
 using Dapper;
+using testeDapper.API.Models;
 
 namespace testeDapper.API;
 
@@ -18,6 +19,6 @@ public class NotificationRepository
 
     public void Save(NotificationModel model)
     {
-        _session.Connection.Execute("INSERT INTO [Notifications] VALUES('Title', 'Message', GETDATE())", null, _session.Transaction);
+        _session.Connection.Execute($"INSERT INTO [Notifications] VALUES ('{model.Title}', '{model.Message}')", null, _session.Transaction);
     }
 }

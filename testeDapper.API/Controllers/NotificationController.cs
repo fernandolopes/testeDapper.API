@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using testeDapper.API.Models;
 
 namespace testeDapper.API.Controllers;
 
@@ -15,16 +16,19 @@ public class NotificationController : Controller
     [HttpPost("")]
     public IActionResult Post(
         [FromServices] IUnitOfWork unitOfWork,
-        [FromServices] NotificationRepository repository)
+        [FromServices] NotificationRepository repository,
+        [FromBody] NotificationModel model)
     {
-        unitOfWork.BeginTransaction();
-        repository.Save(new NotificationModel
+        try
         {
-            Id = 1,
-            Title = "Teste",
-            Message = "Teste"
-        });
-        unitOfWork.Commit();
+            unitOfWork.BeginTransaction();
+            repository.Save(model);
+            unitOfWork.Commit();
+        }
+        catch (Exception ex)
+        {
+            unitOfWork.Rollback();
+        }
         return Ok();
     }
 }

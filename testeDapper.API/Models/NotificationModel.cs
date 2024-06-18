@@ -1,4 +1,4 @@
-namespace testeDapper.API;
+namespace testeDapper.API.Models;
 
 public class NotificationModel
 {
